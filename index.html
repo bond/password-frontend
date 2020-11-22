@@ -11,22 +11,33 @@
 
 const PASSWD_ENDPOINT = "https://europe-west1-ninja-hacks.cloudfunctions.net/passwordcf"
 
-function getPassword() {
-    const response = fetch(PASSWD_ENDPOINT, {
-        // cache: 'no-cache',
-        mode: 'no-cors',
-        // credentials: 'omit',
-        // headers: {
-            //'Content-Type': 'application/json'
-        
-    })
+function getPassword(numWords = 3) {
+
+    if (numWords > 10) {
+      numWords = 10
+    }
+
+    const response = fetch(`${PASSWD_ENDPOINT}?numWords=${numWords}`)
+    .then(response => response.json())
     .then(data => {
-        console.log(data)
+        document.getElementById('fPassword').value = data.password
+        //console.log(data)
     })
     .catch(function(error) {
         console.log(error);
     })
 }
+
+// add event listner when loaded
+document.addEventListener('DOMContentLoaded', function(event) {
+  document.getElementById('btnGenPass').addEventListener('click', function(event) {
+
+    let len = document.getElementById('fLen').value;
+
+      getPassword(len);
+      console.log('pressed');
+  });
+})
 
 </script>
   <section class="section">
@@ -38,14 +49,21 @@ function getPassword() {
         Genererer passord basert på tilfeldige <strong>Norske ord</strong>!
       </p>
       <div class="field">
+        <label class="label">Antall ord (3-10)</label>
+        <div class="control">
+          <input id="fLen" class="input" type="text" value="3">
+        </div>
+        <p class="help">Antall ord som ønskes i passord</p>
+      </div>
+      <div class="field">
         <label class="label">Ditt passord</label>
         <div class="control">
-          <input class="input" type="text" placeholder="Text input">
+          <input id="fPassword" class="input" type="text" placeholder="Ditt passord dukker opp her">
         </div>
         <p class="help">Passordet kan tilpasses ved å redigere det</p>
       </div>
       <div class="control">
-        <button class="button is-primary">Generer passord</button>
+        <button class="button is-primary" id="btnGenPass">Generer passord</button>
       </div>
     </div>
   </section>
