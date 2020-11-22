@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Passord Generator</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+  </head>
+  <body>
+<script>
+
+const PASSWD_ENDPOINT = "https://europe-west1-ninja-hacks.cloudfunctions.net/passwordcf"
+
+function getPassword() {
+    const response = fetch(PASSWD_ENDPOINT, {
+        // cache: 'no-cache',
+        mode: 'no-cors',
+        // credentials: 'omit',
+        // headers: {
+            //'Content-Type': 'application/json'
+        
+    })
+    .then(data => {
+        console.log(data)
+    })
+    .catch(function(error) {
+        console.log(error);
+    })
+}
+
+</script>
+  <section class="section">
+    <div class="container">
+      <h1 class="title">
+        Passord generator
+      </h1>
+      <p class="subtitle">
+        Genererer passord basert på tilfeldige <strong>Norske ord</strong>!
+      </p>
+      <div class="field">
+        <label class="label">Ditt passord</label>
+        <div class="control">
+          <input class="input" type="text" placeholder="Text input">
+        </div>
+        <p class="help">Passordet kan tilpasses ved å redigere det</p>
+      </div>
+      <div class="control">
+        <button class="button is-primary">Generer passord</button>
+      </div>
+    </div>
+  </section>
+  </body>
+</html>
