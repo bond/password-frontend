@@ -1,6 +1,6 @@
 <script>
 
-  export let name = "Password Generator App"
+  export const name = "Password Generator App"
 
   const PASSWD_API = "https://europe-west1-ninja-hacks.cloudfunctions.net/passwordcf"
 
