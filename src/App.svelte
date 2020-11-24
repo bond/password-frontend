@@ -4,12 +4,12 @@
 
   const PASSWD_API = "https://europe-west1-ninja-hacks.cloudfunctions.net/passwordcf"
 
-  const ASCII_SEP_LOW = 32
-  const ASCII_SEP_HIGH = 64
+  const MIN_WORDS = 3
+  const MAX_WORDS = 10
 
   let password
   let passwordArr = []
-  let nWords
+  let nWords = MIN_WORDS
 
   function ascii_special_chars() {
     // flatten array of ascii-chars
@@ -17,8 +17,6 @@
       .map(x => Array.from({length: x[1] - x[0] + 1}, (a, i) => i + x[0]))
       .flat()
   }
-
-
 
   Array.prototype.random = function () {
     return this[Math.floor((Math.random()*this.length))];
@@ -32,19 +30,18 @@
 
   $: password = passwordArr.passJoin(" ")
 
-  const getPassword = () => {
-    if (parseInt(nWords) < 3) nWords = 3
-    if (parseInt(nWords) > 10) nWords = 10
+  const getPassword = (event) => {
+    if (parseInt(nWords) < MIN_WORDS) nWords = MIN_WORDS
+    if (parseInt(nWords) > MAX_WORDS) nWords = MAX_WORDS
 
     fetch(`${PASSWD_API}?numWords=${nWords}`)
       .then(response => response.json())
-      .then(data => passwordArr = data.password.split(' '))
+      .then(data => passwordArr = data.password.split(' ') )
       .catch(function(error) {
         console.log(error);
       })
   }
 
-  nWords = 3
 </script>
 
 <main>
@@ -58,9 +55,9 @@
       </p>
       <form on:submit|preventDefault="{getPassword}">
         <div class="field">
-          <label for="num_words" class="label">Antall ord (3-10)</label>
+          <label for="num_words" class="label">Antall ord ({MIN_WORDS} - {MAX_WORDS})</label>
           <div class="control">
-            <input id="numb_words" class="input" type="text" bind:value="{nWords}">
+            <input id="num_words" class="input" type="text" bind:value="{nWords}" autofocus>
           </div>
           <p class="help">Antall ord som ønskes i passord</p>
         </div>
