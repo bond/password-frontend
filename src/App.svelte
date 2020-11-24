@@ -1,5 +1,7 @@
 <script>
 
+  export let name = "Password Generator App"
+
   const PASSWD_API = "https://europe-west1-ninja-hacks.cloudfunctions.net/passwordcf"
 
   const ASCII_SEP_LOW = 32
@@ -15,6 +17,8 @@
       .map(x => Array.from({length: x[1] - x[0] + 1}, (a, i) => i + x[0]))
       .flat()
   }
+
+
 
   Array.prototype.random = function () {
     return this[Math.floor((Math.random()*this.length))];
